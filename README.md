@@ -1,4 +1,4 @@
 # scattered
 Scattered Scattergraph Visualization
 
-![Example chart](/xmuskrat/scattered/blob/master/scattered.png?raw=true)
+![Example chart](https://github.com//xmuskrat/scattered/blob/master/scattered.png?raw=true)
