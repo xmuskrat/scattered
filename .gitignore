@@ -3,3 +3,4 @@ node_modules
 public/fonts
 public/lib
 src/lib/old
+credentials.json
