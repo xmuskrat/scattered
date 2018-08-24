@@ -1,6 +1,14 @@
 
 
+import RadialMath from '../math/radial-math';
+var radialMath = new RadialMath();
+
 export default class DragHandler {
+    constructor(chart, element) {
+        this.chart = chart;
+        this.element = element;
+    }
+
     rubberBand(i, duration) {
         let node = d3.select(".point" + i);
         let label = d3.select(".pointLabel" + i);
@@ -14,7 +22,11 @@ export default class DragHandler {
         }
     }
 
-    handlers(chart) {
+    register(d3) {
+        let chart = this.chart;
+        let element = this.element;
+        let colors = this.chart.colors;
+
         let dragHandlers = d3.drag()
         .on("start", function(d) {
             d3.select(this).attr("dragging", "true");
@@ -22,24 +34,27 @@ export default class DragHandler {
             if (typeof tooltip == 'undefined' || !tooltip) {
                 return;
             }
+
             tooltip.transition()
                 .delay(0)
                 .duration(0)
                 .style("opacity", 0);
+
         })
         .on("drag", function(d, i) {
             let x = d3.event.x;
             let y = d3.event.y;
-        
+
             let node = d3.select(this);
+
             let cx = node.attr("cx");
             let cy = node.attr("cy");
-        
+
             let fx = parseFloat(x) + parseFloat(cx);
             let fy = parseFloat(y) + parseFloat(cy);
-        
-            let band = parseInt(chart.cartesianX(x, y) / chart.bandSize);
-            let slice = parseInt(chart.cartesianY(x, y) / chart.sliceSize);
+
+            let band = parseInt(radialMath.cartesianX(x, y) / chart.bandSize);
+            let slice = parseInt(radialMath.cartesianY(x, y) / chart.sliceSize);
         
             let bandNames = Object.values(chart.bands).map(names => names['name']);
             let slices = chart.radar.map(slice => slice['name']);
@@ -53,13 +68,11 @@ export default class DragHandler {
                 }
         
                 dragHandlers.dragEvent = null;
-        
                 //console.log('skip drag', bandNames, band, bandNames[band], slice, slices[slice]);
                 return;
             }
-        
+
             node.style("fill", colors[slice]);
-        
             // let $point = $(".point[data-pointid='" + d.pointId + "']");
             // $point.css({opacity: 0.1});
         
@@ -135,8 +148,8 @@ export default class DragHandler {
             let fx = parseFloat(x) + parseFloat(cx);
             let fy = parseFloat(y) + parseFloat(cy);
         
-            let band = parseInt(chart.cartesianX(cx, cy) / chart.bandSize);
-            let slice = parseInt(chart.cartesianY(cx, cy) / chart.sliceSize );
+            let band = parseInt(radialMath.cartesianX(cx, cy) / chart.bandSize);
+            let slice = parseInt(radialMath.cartesianY(cx, cy) / chart.sliceSize );
         
             // Rubber band effect, bad selection
             if (!dragHandlers.dragEvent || (dragHandlers.dragEvent.slice.toLowerCase() == d.slice.toLowerCase() && dragHandlers.dragEvent.band.toLowerCase() == d.band.name.toLowerCase())) {
@@ -145,9 +158,7 @@ export default class DragHandler {
                 chart.rubberBand(i, 400);
                 return;
             }
-        
             //console.log("do this", dragHandlers.dragEvent);
-        
         
             if (!d.pointId) {
                 console.warn("Not sure which tech - " + d.pointId);
@@ -155,8 +166,9 @@ export default class DragHandler {
         
                 chart.rubberBand(i, 400);
             }
-        
             //console.log(d);
         });
+
+        return dragHandlers;
     }
 }

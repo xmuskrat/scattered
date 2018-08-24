@@ -12,6 +12,8 @@ let lookup = {
     slice: []
 };
 
+var radialMath = new RadialMath();
+
 class RadarChart extends BaseChart {
 
     constructor (data, options = {}) {
@@ -71,11 +73,15 @@ class RadarChart extends BaseChart {
         if (!this.radar) {
             throw new Error("no data, can't render");
         }
+        if (!element) {
+            throw new Error("no element, can't render");
+        }
+        this.element = element;
         this.drawChart(element);
     }
 
-    drawChart (chart) {
-        let svg = d3.select(chart).append("svg")
+    drawChart (element) {
+        let svg = d3.select(element).append("svg")
             .attr("width", this.width)
             .attr("height", this.height)
             .style("margin-left", this.indentWidth + "px")
@@ -184,8 +190,6 @@ class RadarChart extends BaseChart {
             }
         });
 
-        let dragHandlers = this.getDragHandlers();
-
         let points = svg.selectAll(".point")
             .data(data)
             .enter().append("circle")
@@ -257,7 +261,7 @@ class RadarChart extends BaseChart {
                     return colors[d.point[0]];
                 }
             )
-            .call(dragHandlers);
+            .call(new DragHandler(this, this.element).register(d3));
 
         svg.selectAll(".pointLabel")
             .data(data)
@@ -295,8 +299,8 @@ class RadarChart extends BaseChart {
         return {
             pointRadius: this.radiuses[id],
             pointTheta: this.thetas[id],
-            x: this.polarX(this.radiuses[id], this.thetas[id]),
-            y: this.polarY(this.radiuses[id], this.thetas[id])
+            x: radialMath.polarX(this.radiuses[id], this.thetas[id]),
+            y: radialMath.polarY(this.radiuses[id], this.thetas[id])
         };
     }
 
@@ -348,8 +352,8 @@ class RadarChart extends BaseChart {
             let checkCollide = false;
             this.thetas.forEach((cachedTheta) => {
                 this.radiuses.forEach((cachedRadius) => {
-                    let inx = Math.abs(this.polarX(pointRadius, pointTheta) -  this.polarX(cachedRadius, cachedTheta));
-                    let iny = Math.abs(this.polarY(pointRadius, pointTheta) -  this.polarY(cachedRadius, cachedTheta));
+                    let inx = Math.abs(radialMath.polarX(pointRadius, pointTheta) -  radialMath.polarX(cachedRadius, cachedTheta));
+                    let iny = Math.abs(radialMath.polarY(pointRadius, pointTheta) -  radialMath.polarY(cachedRadius, cachedTheta));
 
                     if (!checkCollide && inx < ballSize && iny < ballSize) {
                         //console.log("collision number", retries, "for", id, this.polarX(pointRadius, pointTheta) - this.polarY(cachedRadius, cachedTheta), this.polarY(cachedRadius, cachedTheta) - this.polarY(pointRadius, pointTheta) );
@@ -401,14 +405,7 @@ class RadarChart extends BaseChart {
         this.radiuses = [];
     }
 
-    getDragHandlers () {
-        // Enable drag and drop for dots.
-        return new DragHandler(this);
-    }
 
 }
-
-// Add functionality from chart libaries as local methods.
-Object.assign(RadarChart, RadialMath);
 
 export {RadarChart};
