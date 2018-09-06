@@ -23,7 +23,7 @@ class RadarChart extends BaseChart {
             throw new Error("must pass in radar option");
         }
         if (!data.bands) {
-            throw new Error("must pass in radar option");
+            throw new Error("must pass in bands option");
         }
 
         // Slice Colors
@@ -39,6 +39,7 @@ class RadarChart extends BaseChart {
                 "#C00"
             ];
         }
+        window.colors = this.colors;
 
         // Radar Data
         this.radar = data.radar;
@@ -224,9 +225,15 @@ class RadarChart extends BaseChart {
                 let label = d3.select(".pointLabel" + i);
                 label.transition().delay(0).duration(1000).attr("font-size", "19px");
 
-                // if ( $(this).attr("dragging") !== "true" ) {
-                //     show_tooltip(d, (d3.event.pageX + 35), (d3.event.pageY - 28) );
-                // }
+
+                //@TODO Show tooltip
+                if (typeof window.tooltip === 'undefined' || !window.tooltip) {
+                    //console.log('no tooltip');
+                    return;
+                }
+                if ( typeof $ !== 'undefined' && $(this).attr("dragging") !== "true" ) {
+                    show_tooltip(d, (d3.event.pageX + 35), (d3.event.pageY - 28) );
+                }
 
             })
             .on("mouseout", function (d, i) {
@@ -236,11 +243,11 @@ class RadarChart extends BaseChart {
                 let label = d3.select(".pointLabel" + i);
                 label.transition().delay(0).duration(1000).attr("font-size", "11px");
 
-                if (typeof tooltip === 'undefined' || !tooltip) {
+                if (typeof window.tooltip === 'undefined' || !window.tooltip) {
                     //console.log('no tooltip');
                     return;
                 }
-                tooltip.transition()
+                window.tooltip.transition()
                     .delay(0)
                     .duration(0)
                     .style("opacity", 0);
