@@ -1,0 +1,4 @@
+{
+    "host": "http://localhost",
+    "webserver_port": 8080
+}

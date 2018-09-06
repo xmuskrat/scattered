@@ -31,7 +31,7 @@ export default class DragHandler {
         .on("start", function(d) {
             d3.select(this).attr("dragging", "true");
             d3.event.sourceEvent.stopPropagation();
-            if (typeof tooltip == 'undefined' || !tooltip) {
+            if (typeof window.tooltip == 'undefined' || !window.tooltip) {
                 return;
             }
 
