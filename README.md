@@ -7,7 +7,7 @@ Install instructions
 
 * Setup credentials.json
 * In a console, `npm run build`
-*  In a console,`npm start`
+* In a console,`npm start`
 * Open a web browser on port 8080
 
 Local Scatterchart Editor
