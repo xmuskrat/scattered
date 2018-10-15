@@ -41,9 +41,19 @@ class RadarChart extends BaseChart {
         }
         window.colors = this.colors;
 
+        data.radar.forEach((segment, s) => {
+            segment.points.forEach((point, p) => {
+                if (typeof point.band === "string") {
+                    point.band = data.bands[point.band];
+                }
+            });    
+        });
+
         // Radar Data
         this.radar = data.radar;
         this.bands = data.bands;
+
+        console.log('this.radar', this.radar);
 
         let slices = this.radar.map(slice => slice['name']);
         this.sliceSize = (360 / (slices.length )) - 1;
