@@ -10,6 +10,10 @@ Install instructions
 *  In a console,`npm start`
 * Open a web browser on port 8080
 
+Local Scatterchart Editor
+
+* Coming Soon
+
 For Google Sheets support
 
 * Create a credentials.json using the https://github.com/xmuskrat/scattered/blob/master/credentials.json.example template.
