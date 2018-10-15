@@ -63,7 +63,7 @@ fs.readFile('credentials.json', 'utf8', (err, content) => {
  */
 function authorize(credentials, callback) {
   //console.log('credentials', credentials);
-  const {client_secret, client_id, redirect_uris} = credentials.installed;
+  const {client_secret, client_id, redirect_uris} = credentials.installed || credentials.web;
   const oAuth2Client = new google.auth.OAuth2(
       client_id, client_secret, redirect_uris[0]);
 
@@ -184,6 +184,11 @@ function exposeData(auth) {
     if (err) return console.log('The API returned an error: ' + err);
     if (typeof rows != 'undefined' && rows.length > 1) {
       console.log('Importing columns: ', headers.join(', '), '\n');
+      console.log(rows.length.toString(), 'rows imported.\n');
+
+      console.log('Bands', bands, '\n');
+      console.log('Slices', slices, '\n');
+
       console.log(rows.length.toString(), 'rows imported.\n');
 
       const sheetData = res.data.values;
