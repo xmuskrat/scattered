@@ -7,3 +7,5 @@ public/bundle.js.map
 src/lib/old
 credentials.json
 token.json
+sheets.json
+*.old

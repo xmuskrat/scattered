@@ -6,11 +6,13 @@ var bodyParser = require('body-parser')
 
 let localConfig = {};
 let serverConfig = {};
+let sheetConfig = {};
 
 let radarData = {};
 
 try {
   localConfig = require('./.localdev.config.json');
+  sheetConfig = require('./sheets.json');
   } catch(err) {
     console.error(err);
 }
@@ -102,16 +104,14 @@ function getNewToken(oAuth2Client, callback) {
 
 function exposeData(auth) {
   const sheets = google.sheets({version: 'v4', auth});
-  sheets.spreadsheets.values.get({
-    spreadsheetId: '1for2g1noawHabskVr42EaBChgB8J-8m02x4SA1zn6UA',
-    range: 'Radar!A1:F',
-  }, (err, res) => {
-
+  sheets.spreadsheets.values.get(sheetConfig, (err, res) => {
+    if (err) {
+      throw new Error(err);
+    }
+    
     let rows = res.data.values;
     let headers = rows.splice(0,1)[0];
 
-
- 
     let DEFAULT_BAND = 'Hold';
     let bands = [...new Set(rows.map(item => item[2] ? item[2] : DEFAULT_BAND))];
     let formattedBands = [];
