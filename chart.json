@@ -1,0 +1,29 @@
+{
+    "radar": [
+        {
+            "name": "Segment 1",
+            "points": [
+                {
+                    "name": "Company 1",
+                    "band": "PHASE2"
+                }
+            ]
+        },
+        {
+            "name": "Segment 2",
+            "points": [
+                {
+                    "name": "Company 2",
+                    "band": "PHASE1"
+                }
+            ]
+        }
+    ],
+    "bands": {
+        "PHASE1" : {"value": 1, "name": "Phase 1", "code": "A"},
+        "PHASE2" : {"value": 2, "name": "Phase 2", "code": "B"},
+        "PHASE3" : {"value": 3, "name": "Phase 3", "code": "C"},
+        "PHASE4" : {"value": 4, "name": "Phase 4", "code": "D"},
+        "PHASE5" : {"value": 5, "name": "Phase 5", "code": "E"}
+    }
+}
