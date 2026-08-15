@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="An interactive radar chart for mapping items across categories and stages.">
+    <title>Scattered</title>
+    <link rel="stylesheet" href="src/style.css">
+  </head>
+  <body>
+    <main class="page">
+      <header>
+        <p class="eyebrow">Interactive radar chart</p>
+        <h1>Scattered</h1>
+        <p class="intro">A reporting surface you can move through. Map a signal by category and stage, then change the story by moving it.</p>
+      </header>
+      <section class="toolbar" aria-label="Radar controls">
+        <label>Find a signal <input id="search" type="search" placeholder="Search signals"></label>
+        <label><input id="readonly" type="checkbox"> Read-only mode</label>
+      </section>
+      <section class="workspace" aria-label="Radar chart">
+        <scattered-radar id="chart" class="chart" data-src="chart.json"></scattered-radar>
+        <aside class="details" aria-live="polite">
+          <p class="eyebrow">Reporting signal</p>
+          <h2 id="item-name">Choose a point</h2>
+          <p id="item-detail">Each colored segment is a category; each ring is a stage.</p>
+          <p class="microcopy">Drag a signal, or focus it and use the arrow keys. Enter selects; Escape clears selection.</p>
+          <ul id="legend" class="legend" aria-label="Radar categories"></ul>
+        </aside>
+      </section>
+      <section class="storyboard" aria-labelledby="storyboard-title">
+        <div>
+          <p class="eyebrow">The control, explained</p>
+          <h2 id="storyboard-title">A chart that records a decision.</h2>
+        </div>
+        <ol>
+          <li><b>1 / Slice</b><span>Who owns this question?</span></li>
+          <li><b>2 / Band</b><span>How close is it to use?</span></li>
+          <li><b>3 / Move</b><span>What changed in the report?</span></li>
+        </ol>
+      </section>
+      <section class="change-log" aria-labelledby="change-log-title">
+        <p class="eyebrow">Session decision log</p>
+        <h2 id="change-log-title">No changes yet.</h2>
+        <p id="change-log-detail">Move a signal to leave a small, legible trace of the reporting decision.</p>
+        <button id="undo" disabled>Undo last move</button>
+      </section>
+      <footer><p>Scattered is an open-source, dependency-free Web Component.</p><a href="https://github.com/xmuskrat/scattered">View the original project ↗</a></footer>
+    </main>
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>

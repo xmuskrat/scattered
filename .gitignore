@@ -1,11 +1,2 @@
-node_modules
 .DS_Store
-public/fonts
-public/lib
-public/bundle.js
-public/bundle.js.map
-src/lib/old
-credentials.json
-token.json
-sheets.json
-*.old
+node_modules/
