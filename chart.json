@@ -1,29 +1,23 @@
 {
-    "radar": [
-        {
-            "name": "Segment 1",
-            "points": [
-                {
-                    "name": "Company 1",
-                    "band": "PHASE2"
-                }
-            ]
-        },
-        {
-            "name": "Segment 2",
-            "points": [
-                {
-                    "name": "Company 2",
-                    "band": "PHASE1"
-                }
-            ]
-        }
-    ],
-    "bands": {
-        "PHASE1" : {"value": 1, "name": "Phase 1", "code": "A"},
-        "PHASE2" : {"value": 2, "name": "Phase 2", "code": "B"},
-        "PHASE3" : {"value": 3, "name": "Phase 3", "code": "C"},
-        "PHASE4" : {"value": 4, "name": "Phase 4", "code": "D"},
-        "PHASE5" : {"value": 5, "name": "Phase 5", "code": "E"}
-    }
+  "title": "Example technology radar",
+  "bands": [
+    { "id": "adopt", "name": "Adopt" },
+    { "id": "trial", "name": "Trial" },
+    { "id": "assess", "name": "Assess" },
+    { "id": "hold", "name": "Hold" }
+  ],
+  "slices": [
+    { "id": "platforms", "name": "Platforms", "color": "#9c4dff" },
+    { "id": "practices", "name": "Practices", "color": "#ef6c4f" },
+    { "id": "languages", "name": "Languages", "color": "#2a9d8f" },
+    { "id": "tools", "name": "Tools", "color": "#e9b949" }
+  ],
+  "items": [
+    { "id": "postgres", "name": "Postgres", "slice": "platforms", "band": "adopt", "description": "A reliable default for relational data." },
+    { "id": "event-storming", "name": "Event storming", "slice": "practices", "band": "trial", "description": "A collaborative way to explore domain behavior." },
+    { "id": "rust", "name": "Rust", "slice": "languages", "band": "assess", "description": "A systems language with strong memory safety guarantees." },
+    { "id": "spreadsheet", "name": "Spreadsheets", "slice": "tools", "band": "hold", "description": "Useful, but easy to turn into an unmaintainable system." },
+    { "id": "sqlite", "name": "SQLite", "slice": "platforms", "band": "trial", "description": "A tiny database with a surprisingly wide range of uses." },
+    { "id": "pairing", "name": "Pair programming", "slice": "practices", "band": "adopt", "description": "A high-bandwidth way to share context and improve decisions." }
+  ]
 }
