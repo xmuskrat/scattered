@@ -11,6 +11,35 @@
 - Emits a complete, serializable change event for the host application to save.
 - Loads either the 2026 data model or the original 2018 `{ radar, bands }` JSON shape.
 
+## See it working
+
+Scattered is deliberately a working reporting surface, not a decorative chart. The screenshots below come from the live demo and show the complete interaction loop.
+
+| Map the portfolio | Inspect a signal |
+| --- | --- |
+| ![A four-slice Scattered radar with six numbered signals mapped across Adopt, Trial, Assess, and Hold bands.](docs/screenshots/scattered-overview.png) | ![The Rust signal selected in the Languages / Assess position, with its reporting details shown alongside the radar.](docs/screenshots/scattered-selection.png) |
+| Categories are radial slices; stages are concentric bands. | Click, hover, or focus a point to reveal its current classification and description. |
+
+| Record the decision |
+| --- |
+| ![The demo's decision log records Rust moving from Languages / Assess to Languages / Trial.](docs/screenshots/scattered-change.png) |
+| Drag a point—or move it with the arrow keys—and consume the emitted `change` event in your application. The demo keeps the update only for the browser session. |
+
+The public demo is at [ui.aubreyalexander.com/scattered](https://ui.aubreyalexander.com/scattered/).
+
+## Feature guide
+
+| Feature | How it works | Why it matters |
+| --- | --- | --- |
+| **Slices and bands** | Give each item a `slice` and `band`; Scattered calculates its polar position. | Makes a two-axis reporting classification legible at a glance. |
+| **Stable layout** | Add optional `position.angle` and `position.radius`; otherwise placement is stable from the item id. | A report does not reshuffle each time it renders. |
+| **Direct manipulation** | Drag a point into another slice or band. | The reporting change happens where the decision is understood. |
+| **Keyboard movement** | Focus a point: Left/Right changes slice; Up/Down changes band; Enter/Space selects; Escape clears selection. | The core interaction remains available without a pointer. |
+| **Search/filtering** | Set the component's `filter` property. | Hosts can narrow a busy radar without duplicating geometry logic. |
+| **Read-only reporting** | Add the `readonly` attribute or set `.readonly = true`. | The same control can be used for dashboards and editable review sessions. |
+| **Host-owned persistence** | Listen for bubbling `change` events. | Scattered stays portable and never assumes a database, auth model, or save endpoint. |
+| **Legacy migration** | Pass the original `{ radar, bands }` JSON. | Existing Scattered reports can move forward without a data conversion project. |
+
 ## Run the demo
 
 ```sh
