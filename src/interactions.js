@@ -11,7 +11,20 @@ export function placementFromPointer(event, svg, data, radius) {
 export function placementFromKey(item, key, data) {
   const sliceIndex = data.slices.findIndex(({ id }) => id === item.slice);
   const bandIndex = data.bands.findIndex(({ id }) => id === item.band);
-  if (key === 'ArrowRight' || key === 'ArrowLeft') return { ...item, slice: data.slices[(sliceIndex + (key === 'ArrowRight' ? 1 : -1) + data.slices.length) % data.slices.length].id };
-  if (key === 'ArrowUp' || key === 'ArrowDown') return { ...item, band: data.bands[Math.max(0, Math.min(data.bands.length - 1, bandIndex + (key === 'ArrowDown' ? 1 : -1)))].id };
+  const normalizedKey = key.toLowerCase();
+  const movesRight = key === 'ArrowRight' || normalizedKey === 'd';
+  const movesLeft = key === 'ArrowLeft' || normalizedKey === 'a';
+  const movesInward = key === 'ArrowUp' || normalizedKey === 'w';
+  const movesOutward = key === 'ArrowDown' || normalizedKey === 's';
+
+  if (movesRight || movesLeft) {
+    const direction = movesRight ? 1 : -1;
+    return { ...item, slice: data.slices[(sliceIndex + direction + data.slices.length) % data.slices.length].id };
+  }
+  if (movesInward || movesOutward) {
+    const direction = movesOutward ? 1 : -1;
+    const nextBand = Math.max(0, Math.min(data.bands.length - 1, bandIndex + direction));
+    return { ...item, band: data.bands[nextBand].id };
+  }
   return null;
 }
