@@ -89,7 +89,7 @@ Or load a JSON document declaratively:
 
 `select`, `change`, `load`, and `error` bubble and cross the shadow boundary. A `change` event contains the complete updated radar, the changed item, and its complete prior value.
 
-Focus a point, then use arrow keys to move it. Enter or Space selects it; Escape clears selection. Add `readonly` for a non-editable reporting view.
+Focus a point, then use arrow keys to move it. `W`/`A`/`S`/`D` offer the same spatial movement shortcut. Enter or Space selects it; Escape clears selection. Add `readonly` for a non-editable reporting view.
 
 ## Original-data compatibility
 
@@ -103,4 +103,4 @@ Scattered normalizes that document on load, preserving its slices, bands, and po
 
 ## License
 
-[ISC](LICENSE) © Aubrey Alexander
+[ISC](LICENSE) © 2018–2026 Aubrey Alexander

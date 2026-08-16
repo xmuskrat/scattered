@@ -5,10 +5,10 @@ const VIEWBOX_SIZE = 760;
 const CHART_RADIUS = VIEWBOX_SIZE * 0.39;
 
 export const styles = `
-  :host { display: block; min-width: 0; }
+  :host { display: block; min-width: 0; user-select: none; -webkit-user-select: none; }
   svg { display: block; width: 100%; height: auto; overflow: visible; }
-  .ring, .spoke { fill: none; stroke: #dcd4ca; stroke-width: 1; stroke-dasharray: 2 5; }
-  .band-label { fill: #8d8279; font: 11px system-ui, sans-serif; text-anchor: middle; }
+  .ring, .spoke { fill: none; stroke: #81786f; stroke-width: 1.5; stroke-dasharray: 3 5; }
+  .band-label { fill: #625b54; font: 11px system-ui, sans-serif; text-anchor: middle; }
   .slice-label { font: 750 15px system-ui, sans-serif; text-anchor: middle; }
   .point { cursor: grab; stroke: #fff; stroke-width: 3; transition: r .15s ease; }
   .point:hover, .point:focus { r: 17; outline: none; }
@@ -69,7 +69,9 @@ function appendPoint(svg, item, number, data, selectedId, callbacks) {
   point.append(title);
 
   point.addEventListener('click', () => callbacks.onSelect(item));
-  point.addEventListener('focus', () => callbacks.onSelect(item));
+  // Pointer down gives an SVG point focus before the drag completes. Keep that
+  // focus update render-free so it cannot replace the active pointer target.
+  point.addEventListener('focus', () => callbacks.onFocus(item));
   point.addEventListener('pointerdown', (event) => callbacks.onPointerDown(item, point, event, CHART_RADIUS));
   point.addEventListener('keydown', (event) => callbacks.onKeyDown(item, event));
   svg.append(point);
@@ -80,7 +82,14 @@ function appendPoint(svg, item, number, data, selectedId, callbacks) {
 }
 
 /** Render the stateless SVG view used by the <scattered-radar> custom element. */
-export function renderRadar(data, { selectedId, filter, onSelect, onPointerDown, onKeyDown }) {
+export function renderRadar(data, {
+  selectedId,
+  filter,
+  onFocus,
+  onSelect,
+  onPointerDown,
+  onKeyDown,
+}) {
   const svg = svgElement('svg', {
     'aria-label': data.title || 'Interactive radar chart',
     role: 'img',
@@ -90,7 +99,7 @@ export function renderRadar(data, { selectedId, filter, onSelect, onPointerDown,
   appendBandGuides(svg, data.bands);
   appendSliceGuides(svg, data.slices);
 
-  const callbacks = { onSelect, onPointerDown, onKeyDown };
+  const callbacks = { onFocus, onSelect, onPointerDown, onKeyDown };
   const visibleItems = data.items.filter((item) => {
     const slice = data.slices.find(({ id }) => id === item.slice);
     const band = data.bands.find(({ id }) => id === item.band);

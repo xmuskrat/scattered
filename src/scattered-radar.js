@@ -71,6 +71,7 @@ export class ScatteredRadar extends HTMLElement {
     style.textContent = styles;
     const svg = renderRadar(this.#data, {
       filter: this.#filter,
+      onFocus: (item) => this.#select(item, { render: false }),
       onKeyDown: (item, event) => this.#moveWithKeys(item, event),
       onPointerDown: (...args) => this.#drag(...args),
       onSelect: (item) => this.#select(item),
@@ -79,10 +80,10 @@ export class ScatteredRadar extends HTMLElement {
     this.#root.replaceChildren(style, svg);
   }
 
-  #select(item) {
+  #select(item, { render = true } = {}) {
     this.#selectedId = item.id;
     this.dispatchEvent(radarEvent('select', { item: structuredClone(item) }));
-    this.render();
+    if (render) this.render();
   }
 
   #change(item, previous) {
